@@ -5,6 +5,7 @@ Purpose: help you get to work in time!! =)
 Menu:
 1) När ska jag gå för att hinna till bussen?
 2) Inställningar
+3) Exit
 
 ------------------------------------------------------------------------------------------
 
@@ -24,11 +25,12 @@ Ange:
 (*Vilken linje man åker med, avgör vilken tidtabells-fil som läses in)
 
 ---------------------------------------------------------------------------------------------
+//Vet vilken hållplats man vill åka ifrån och vad klockan är --> när går nästa buss? 
 
 TO DO =)
 
 [REBECKA]
-* Beräkna hur lång tid det är kvar tills bussen går
+* Beräkna hur lång tid det är kvar tills bussen går (om man matar in busstiden själv) - DONE
 * Beräkna hur lång tid det är kvar tills man måste gå hemifrån så man hinner tills bussen går
 * Skapa nedräkningsfunktion
 
@@ -39,5 +41,11 @@ TO DO =)
 
 * Göra komplett tidtabell med tre hållplatser och tider under dagen
 * Anpassa nedräkningen efter nästa buss som går (uppdateras beroende på vad klockan är just nu)
+
+[VIKTIGT]
+* Validering av input, try & catch
+* Skapa meny
+
+[EXTRA]
 * (Göra tidtabell för fler linjer)
 * (Beroende på vilken linje man anger, läsa in den linjens tidtabell)
