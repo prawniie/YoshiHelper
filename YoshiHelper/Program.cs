@@ -8,6 +8,12 @@ namespace YoshiHelper
         {
             Console.WriteLine("Welcome to our app YoshiHelper!");
             Console.WriteLine("How can I help you today?");
+
+
+
+            Console.WriteLine("Halloj är läget? ");
+
+
         }
     }
 }
