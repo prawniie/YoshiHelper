@@ -88,7 +88,7 @@ namespace YoshiHelper
 
             foreach (var item in timeTable)
             {
-                if (item.StationName == "Munkebäcksmotet") //här kan vi använda user input ist
+                if (item.StationName == "Åkareplatsen") //här kan vi använda user input ist
                 {
                     //TimeSpan targetTime = DateTime.Now.TimeOfDay;
                     TimeSpan xxx = DateTime.Parse("18:45:00").TimeOfDay;
