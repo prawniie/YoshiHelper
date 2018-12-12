@@ -86,18 +86,20 @@ namespace YoshiHelper
         private static void FindNextBus(List<DepartureTime> timeTable)
         {
 
-            //
-            //var result = timeTable.Where(x => x.StationName == "Åkareplatsen");
-            //var onlyTimes = result.Select(x => x.DepartureTimes);
-            //var nearest = onlyTimes.ToArray().MinBy(x => Math.Abs((long)x - targetNumber));
-
             foreach (var item in timeTable)
             {
                 if (item.StationName == "Åkareplatsen") //här kan vi använda user input ist
                 {
                     TimeSpan targetTime = DateTime.Now.TimeOfDay;
 
-                    var closestTime = item.DepartureTimes.OrderBy(t => Math.Abs((t - targetTime).Ticks)).First(); 
+                    var closestTime = item.DepartureTimes.OrderBy(t => Math.Abs((t - targetTime).Ticks)).First();
+
+                    //Validering så att inte närmsta busstiden redan har varit
+                    //if (closestTime < targetTime)
+                    //{
+                    //    closestTime = item.DepartureTimes.OrderBy(t => Math.Abs((t - targetTime).Ticks));
+
+                    //}
                 }
             }
         }
