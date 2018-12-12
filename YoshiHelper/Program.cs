@@ -16,10 +16,10 @@ namespace YoshiHelper
             Console.Clear();
 
             List<DepartureTime> timeTable = ReadTimetable();
-            FindNextBus(timeTable);
+            TimeSpan nextBus = FindNextBus(timeTable);
 
             CalculateWalkingTime(busInfo);
-            TimeSpan timeUntilBusDeparture = CalculateTimeUntilBusDeparture(busInfo);
+            TimeSpan timeUntilBusDeparture = CalculateTimeUntilBusDeparture(nextBus);
 
             DisplayTimeUntilBusDeparture(timeUntilBusDeparture);
             
@@ -57,7 +57,7 @@ namespace YoshiHelper
 
         private static List<DepartureTime> ReadTimetable()
         {
-            string[] timeTable = File.ReadAllLines(@"C:\Project\YoshiHelper\YoshiHelper\Gråbosnabben.txt");
+            string[] timeTable = File.ReadAllLines(@"C:\Project\YoshiHelper\YoshiHelper\YoshiHelper\Gråbosnabben.txt");
             //Det viktiga är att kunna komma åt tiderna baserat på vilken busstation man har skrivit in 
 
             //Den stora foreach-loopen kommer skapa 3 instanser av DepartureTime-klassen
@@ -83,8 +83,9 @@ namespace YoshiHelper
             return departureTime;
         }
 
-        private static void FindNextBus(List<DepartureTime> timeTable)
+        private static TimeSpan FindNextBus(List<DepartureTime> timeTable)
         {
+            TimeSpan closestTime = new TimeSpan();
 
             foreach (var item in timeTable)
             {
@@ -93,9 +94,11 @@ namespace YoshiHelper
                     //TimeSpan targetTime = DateTime.Now.TimeOfDay;
                     TimeSpan xxx = DateTime.Parse("18:45:00").TimeOfDay;
 
-                    var closestTime = item.DepartureTimes.Where(t => t > xxx).OrderBy(t => Math.Abs((t - xxx).Ticks)).First();
+                    closestTime = item.DepartureTimes.Where(t => t > xxx).OrderBy(t => Math.Abs((t - xxx).Ticks)).First();
+                    return closestTime;
                 }
             }
+            return closestTime;
         }
 
         private static void CalculateWalkingTime(List<Bus> busInfo)
@@ -109,14 +112,11 @@ namespace YoshiHelper
             Console.WriteLine($"Det tar {string.Join(",", walktoEndStationMinutes):#.#} minuter att gå till bussen från jobbet");
         }
 
-        private static TimeSpan CalculateTimeUntilBusDeparture(List<Bus> busInfo)
+        private static TimeSpan CalculateTimeUntilBusDeparture(TimeSpan nextBus)
         {
-            Bus bus = new Bus();
-            bus.StartTime = new TimeSpan(14, 50, 00);
-
             DateTime time = DateTime.Now;
 
-            var timeUntilBusDeparture = bus.StartTime - time.TimeOfDay; //Genom att använda time.TimeOfDay så kan time omvandlas till TimeSpan, går inte att subtrahera DateTime från TimeSpan
+            var timeUntilBusDeparture = nextBus - time.TimeOfDay; //Genom att använda time.TimeOfDay så kan time omvandlas till TimeSpan, går inte att subtrahera DateTime från TimeSpan
             Console.WriteLine($"\nDet är {timeUntilBusDeparture:mm} minuter kvar tills bussen går");
 
             return timeUntilBusDeparture;
