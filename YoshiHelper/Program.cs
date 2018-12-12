@@ -13,7 +13,7 @@ namespace YoshiHelper
 
             WelcomeUser();
             List<Bus> busInfo = AskUserForDefaultSettings();
-            //ReadTimetable();
+            ReadTimetable();
             CalculateWalkingTime(busInfo);
             
         }
@@ -55,22 +55,11 @@ namespace YoshiHelper
         {
             double walkSpeed = 1.4;
 
-            var walktoStartStationSeconds = busInfo.Select(x => x.DistanceToStartStation / walkSpeed / 60);
-            Console.WriteLine($"It takes {string.Join(",",walktoStartStationSeconds):0.#} minutes to walk to the bus");
+            var walktoStartStationMinutes = busInfo.Select(x => x.DistanceToStartStation / walkSpeed / 60);
+            Console.WriteLine($"It takes {string.Join(",",walktoStartStationMinutes):0.#} minutes to walk to the bus from home");
 
-            //double walktoStartStationMinutes = Convert.ToDouble(walktoStartStationSeconds) / 60;
-
-            //Console.WriteLine($"It takes {walktoStartStationMinutes:0.##} minutes to walk to the start station from home");
-
-            //Bus bus = new Bus();
-            //List<Bus> x = new List<Bus>();
-
-
-            //double walkToEndStationSeconds = bus.DistanceToEndStation / walkSpeed;
-            //double walkToEndStationMinutes = walkToEndStationSeconds / 60;
-            //Console.WriteLine($"It takes {walkToEndStationMinutes} minutes to walk to the end station from work");
-
-
+            var walktoEndStationMinutes = busInfo.Select(x => x.DistanceToEndStation / walkSpeed / 60);
+            Console.WriteLine($"It takes {string.Join(",", walktoEndStationMinutes):0.#} minutes to walk to the bus from work");
         }
 
 

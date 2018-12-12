@@ -1,0 +1,36 @@
+﻿------------------------------------YOSHI HELPER---------------------------------------
+
+Purpose: help you get to work in time!! =)
+
+Menu:
+1) När ska jag gå för att hinna till bussen?
+2) Inställningar
+
+------------------------------------------------------------------------------------------
+
+1) När ska jag gå för att hinna till bussen?
+Visa nedräkning (minuter) tills man måste gå till busshållplatsen
+
+Skapa nedräkning genom att ta klockslaget då bussen går minus klockslaget just nu
+tex DateTime.Now - bus.StartTime = 7 min (tex)
+
+
+2) Inställningar
+Ange:
+*Starthållplats
+*Avstånd till starthållplats
+*Ändhållplats
+*Avstånd till ändhållplats
+(*Vilken linje man åker med, avgör vilken tidtabells-fil som läses in)
+
+---------------------------------------------------------------------------------------------
+
+TO DO =)
+* Beräkna hur lång tid det är kvar tills bussen går
+* Beräkna hur lång tid det är kvar tills man måste gå hemifrån så man hinner tills bussen går
+* Skapa nedräkningsfunktion
+
+* Göra komplett tidtabell med tre hållplatser och tider under dagen
+* Anpassa nedräkningen efter nästa buss som går (uppdateras beroende på vad klockan är just nu)
+* (Göra tidtabell för fler linjer)
+* (Beroende på vilken linje man anger, läsa in den linjens tidtabell)
