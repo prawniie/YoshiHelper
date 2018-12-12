@@ -22,7 +22,7 @@ namespace YoshiHelper
             TimeSpan timeUntilBusDeparture = CalculateTimeUntilBusDeparture(nextBus);
 
             DisplayTimeUntilBusDeparture(timeUntilBusDeparture);
-            
+
         }
 
 
@@ -38,26 +38,38 @@ namespace YoshiHelper
             List<Bus> busInfo = new List<Bus>();
             Bus bus = new Bus();
 
-            Console.Write("Vilken busshållplats åker du ifrån på morgonen? ");
-            bus.StartStation = Console.ReadLine();
+            while (true)
+            {
+                try
+                {
+                    Console.Write("Vilken busshållplats åker du ifrån på morgonen? ");
+                    bus.StartStation = Console.ReadLine();
 
-            Console.Write("Hur långt är det till busshållplatsen hemifrån? (ange i m) ");
-            bus.DistanceToStartStation = double.Parse(Console.ReadLine());
+                    Console.Write("Hur långt är det till busshållplatsen hemifrån? (ange i m) ");
+                    bus.DistanceToStartStation = double.Parse(Console.ReadLine());
 
-            Console.Write("Vilken busshållplats hoppar du av på? ");
-            bus.EndStation = Console.ReadLine();
+                    Console.Write("Vilken busshållplats hoppar du av på? ");
+                    bus.EndStation = Console.ReadLine();
 
-            Console.Write("Hur långt är det från denna hållplats till jobbet? (ange i m) ");
-            bus.DistanceToEndStation = double.Parse(Console.ReadLine());
+                    Console.Write("Hur långt är det från denna hållplats till jobbet? (ange i m) ");
+                    bus.DistanceToEndStation = double.Parse(Console.ReadLine());
 
+                    break;
+                }
+                catch (Exception)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Nu knappa du in fel hörre du!");
+                    Console.ResetColor();
+                }
+            }
             busInfo.Add(bus);
-            return busInfo;
-
+            return busInfo;        
         }
 
         private static List<DepartureTime> ReadTimetable()
         {
-            string[] timeTable = File.ReadAllLines(@"C:\Project\YoshiHelper\YoshiHelper\YoshiHelper\Gråbosnabben.txt");
+            string[] timeTable = File.ReadAllLines(@"C:\Project\YoshiHelper\YoshiHelper\Gråbosnabben.txt");
             //Det viktiga är att kunna komma åt tiderna baserat på vilken busstation man har skrivit in 
 
             //Den stora foreach-loopen kommer skapa 3 instanser av DepartureTime-klassen
@@ -73,7 +85,7 @@ namespace YoshiHelper
                 foreach (var time in splittedItems.Skip(1))
                 {
                     TimeSpan x = TimeSpan.Parse(time);
-        
+
                     times.Add(x);
                 }
                 busStop.DepartureTimes = times;
@@ -106,7 +118,7 @@ namespace YoshiHelper
             double walkSpeed = 1.4;
 
             var walktoStartStationMinutes = busInfo.Select(x => x.DistanceToStartStation / walkSpeed / 60);
-            Console.WriteLine($"Det tar {string.Join(",",walktoStartStationMinutes):#.#} minuter att gå till bussen hemifrån");
+            Console.WriteLine($"Det tar {string.Join(",", walktoStartStationMinutes):#.#} minuter att gå till bussen hemifrån");
 
             var walktoEndStationMinutes = busInfo.Select(x => x.DistanceToEndStation / walkSpeed / 60);
             Console.WriteLine($"Det tar {string.Join(",", walktoEndStationMinutes):#.#} minuter att gå till bussen från jobbet");
@@ -156,14 +168,10 @@ namespace YoshiHelper
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("---------------------------------------------------------");
-            Console.WriteLine("YoshiHelper".PadLeft(25));
+            Console.WriteLine("YoshiHelper".PadLeft(30));
             Console.WriteLine("---------------------------------------------------------");
             Console.ResetColor();
 
         }
-
-
-
-
     }
 }
