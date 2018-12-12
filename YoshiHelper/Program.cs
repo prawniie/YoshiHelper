@@ -88,18 +88,12 @@ namespace YoshiHelper
 
             foreach (var item in timeTable)
             {
-                if (item.StationName == "Åkareplatsen") //här kan vi använda user input ist
+                if (item.StationName == "Munkebäcksmotet") //här kan vi använda user input ist
                 {
-                    TimeSpan targetTime = DateTime.Now.TimeOfDay;
+                    //TimeSpan targetTime = DateTime.Now.TimeOfDay;
+                    TimeSpan xxx = DateTime.Parse("18:45:00").TimeOfDay;
 
-                    var closestTime = item.DepartureTimes.OrderBy(t => Math.Abs((t - targetTime).Ticks)).First();
-
-                    //Validering så att inte närmsta busstiden redan har varit
-                    //if (closestTime < targetTime)
-                    //{
-                    //    closestTime = item.DepartureTimes.OrderBy(t => Math.Abs((t - targetTime).Ticks));
-
-                    //}
+                    var closestTime = item.DepartureTimes.Where(t => t > xxx).OrderBy(t => Math.Abs((t - xxx).Ticks)).First();
                 }
             }
         }
