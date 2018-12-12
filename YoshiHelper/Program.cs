@@ -6,7 +6,8 @@ namespace YoshiHelper
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Welcome to our app YoshiHelper!");
+            Console.WriteLine("How can I help you today?");
         }
     }
 }
