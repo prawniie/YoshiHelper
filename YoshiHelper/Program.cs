@@ -15,8 +15,8 @@ namespace YoshiHelper
             List<Bus> busInfo = AskUserForDefaultSettings();
             Console.Clear();
 
-            ReadTimetable();
-            FindNextBus();
+            List<DepartureTime> timeTable = ReadTimetable();
+            FindNextBus(timeTable);
 
             CalculateWalkingTime(busInfo);
             TimeSpan timeUntilBusDeparture = CalculateTimeUntilBusDeparture(busInfo);
@@ -57,7 +57,7 @@ namespace YoshiHelper
 
         private static List<DepartureTime> ReadTimetable()
         {
-            string[] timeTable = File.ReadAllLines(@"C:\Project\YoshiHelper\YoshiHelper\YoshiHelper\Gråbosnabben.txt");
+            string[] timeTable = File.ReadAllLines(@"C:\Project\YoshiHelper\YoshiHelper\Gråbosnabben.txt");
             //Det viktiga är att kunna komma åt tiderna baserat på vilken busstation man har skrivit in 
 
             //Den stora foreach-loopen kommer skapa 3 instanser av DepartureTime-klassen
@@ -83,14 +83,23 @@ namespace YoshiHelper
             return departureTime;
         }
 
-        private static void FindNextBus()
+        private static void FindNextBus(List<DepartureTime> timeTable)
         {
 
-            ////FIND CLOSEST ELEMENT IN ARRAY; går att använda för oss där targetNumber är klockslag ?
-            //int[] array = new int[5] { 5, 7, 8, 15, 20 };
+            //
+            //var result = timeTable.Where(x => x.StationName == "Åkareplatsen");
+            //var onlyTimes = result.Select(x => x.DepartureTimes);
+            //var nearest = onlyTimes.ToArray().MinBy(x => Math.Abs((long)x - targetNumber));
 
-            //int TargetNumber = 13;
-            //var nearest = array.MinBy(x => Math.Abs((long)x - targetNumber));
+            foreach (var item in timeTable)
+            {
+                if (item.StationName == "Åkareplatsen") //här kan vi använda user input ist
+                {
+                    TimeSpan targetTime = DateTime.Now.TimeOfDay;
+
+                    var closestTime = item.DepartureTimes.OrderBy(t => Math.Abs((t - targetTime).Ticks)).First(); 
+                }
+            }
         }
 
         private static void CalculateWalkingTime(List<Bus> busInfo)
