@@ -26,9 +26,16 @@ Ange:
 ---------------------------------------------------------------------------------------------
 
 TO DO =)
+
+[REBECKA]
 * Beräkna hur lång tid det är kvar tills bussen går
 * Beräkna hur lång tid det är kvar tills man måste gå hemifrån så man hinner tills bussen går
 * Skapa nedräkningsfunktion
+
+[GEORG]
+*CalculateBusTime: Beräkna hur lång tid bussresan tar (genom att mäta svingeln[1] = 15.21 - munkebäcksmotet[1] = 15.25 --> resultat = 4)
+
+Är hemma (klockslag just nu)--> gå till bussen (CalculateWalkingTime)--> bussresan (CalculateBusTime)--> gå till jobbet (CalculateWalkingTime)
 
 * Göra komplett tidtabell med tre hållplatser och tider under dagen
 * Anpassa nedräkningen efter nästa buss som går (uppdateras beroende på vad klockan är just nu)

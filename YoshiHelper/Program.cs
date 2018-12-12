@@ -46,9 +46,15 @@ namespace YoshiHelper
 
         }
 
-        private static void ReadTimetable()
+        private static string[] ReadTimetable()
         {
             string[] timeTable = File.ReadAllLines(@"C:\Project\YoshiHelper\YoshiHelper\YoshiHelper\Gråbosnabben.txt");
+
+            foreach (var item in timeTable)
+            {
+                string[] splittedTimes = item.Split("*");
+            }
+            return splittedTimes;
         }
 
         private static void CalculateWalkingTime(List<Bus> busInfo)
