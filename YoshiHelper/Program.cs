@@ -67,8 +67,14 @@ namespace YoshiHelper
                 string[] splittedItems = item.Split(' ');
                 var busStop = new DepartureTime();
                 busStop.StationName = splittedItems[0];
+                departureTime.Add(busStop);
 
-
+                List<TimeSpan> times = new List<TimeSpan>();
+                foreach (var time in splittedItems)
+                {
+                    TimeSpan x = new TimeSpan();
+                    times.Add(x);
+                }
             }
 
             for (int i = 0; i < timeTable.Length; i++)
