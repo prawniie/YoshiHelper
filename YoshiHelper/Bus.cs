@@ -6,9 +6,11 @@ namespace YoshiHelper
 {
     class Bus
     {
-        public string startStation { get; set; }
-        public string endStation { get; set; }
-        public TimeSpan startTime { get; set; }
-        public TimeSpan endTime { get; set; }
+        public string StartStation { get; set; }
+        public string EndStation { get; set; }
+        public TimeSpan StartTime { get; set; }
+        public TimeSpan EndTime { get; set; }
+        public double DistanceToStartStation { get; set; }
+        public double DistanceToEndStation { get; set; }
     }
 }
