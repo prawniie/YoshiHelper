@@ -21,7 +21,7 @@ namespace YoshiHelper
             TimeSpan timeUntilBusDeparture = CalculateTimeUntilBusDeparture(busInfo);
 
             DisplayTimeUntilBusDeparture(timeUntilBusDeparture);
-            
+
         }
 
         private static void WelcomeUser()
@@ -52,15 +52,30 @@ namespace YoshiHelper
 
         }
 
-        private static string[] ReadTimetable()
+        private static List<string> ReadTimetable()
         {
-            string[] timeTable = File.ReadAllLines(@"C:\Project\YoshiHelper\YoshiHelper\YoshiHelper\Gråbosnabben.txt");
+            string[] timeTable = File.ReadAllLines(@"C:\Project\YoshiHelper\YoshiHelper\Gråbosnabben.txt");
 
-            foreach (var item in timeTable)
-            {
-                string[] splittedTimes = item.Split("*");
-            }
-            return splittedTimes;
+
+
+
+
+            //List<string> busInfo = new List<string>();
+
+            //foreach (var item in timeTable)
+            //{
+            //    string[] splittedTimes = item.Split(" ");
+
+            //    foreach (var element in splittedTimes)
+            //    {
+            //        busInfo.Add(element);
+            //    }
+            //}
+            //return busInfo;
+
+
+
+
         }
 
         private static void CalculateWalkingTime(List<Bus> busInfo)
