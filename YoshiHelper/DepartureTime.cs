@@ -7,6 +7,6 @@ namespace YoshiHelper
     class DepartureTime
     {
         public string StationName { get; set; }
-        public List<TimeSpan> departureTimes { get; set; }
+        public List<TimeSpan> DepartureTimes { get; set; }
     }
 }

@@ -55,11 +55,12 @@ namespace YoshiHelper
 
         }
 
-        private static string[] ReadTimetable()
+        private static List<DepartureTime> ReadTimetable()
         {
             string[] timeTable = File.ReadAllLines(@"C:\Project\YoshiHelper\YoshiHelper\YoshiHelper\Gråbosnabben.txt");
             //Det viktiga är att kunna komma åt tiderna baserat på vilken busstation man har skrivit in 
 
+            //Den stora foreach-loopen kommer skapa 3 instanser av DepartureTime-klassen
             List<DepartureTime> departureTime = new List<DepartureTime>();
 
             foreach (var item in timeTable)
@@ -67,31 +68,19 @@ namespace YoshiHelper
                 string[] splittedItems = item.Split(' ');
                 var busStop = new DepartureTime();
                 busStop.StationName = splittedItems[0];
-                departureTime.Add(busStop);
 
                 List<TimeSpan> times = new List<TimeSpan>();
-                foreach (var time in splittedItems)
+                foreach (var time in splittedItems.Skip(1))
                 {
-                    TimeSpan x = new TimeSpan();
+                    TimeSpan x = TimeSpan.Parse(time);
+        
                     times.Add(x);
                 }
+                busStop.DepartureTimes = times;
+                departureTime.Add(busStop);
+
             }
-
-            for (int i = 0; i < timeTable.Length; i++)
-            {
-                string[] enskildBusshållPlats = 
-            }
-
-
-            List<Bus> busInfo = new List<Bus>();
-
-            int counter = 0;
-            foreach (var item in timeTable)
-            {
-
-                string[] åkarePlatsen = item;
-            }
-            return timeTable;
+            return departureTime;
         }
 
         private static void FindNextBus()
