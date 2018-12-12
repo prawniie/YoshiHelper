@@ -14,9 +14,15 @@ namespace YoshiHelper
             WelcomeUser();
             List<Bus> busInfo = AskUserForDefaultSettings();
             ReadTimetable();
+
             CalculateWalkingTime(busInfo);
+            TimeSpan timeUntilBusDeparture = CalculateTimeUntilBusDeparture(busInfo);
+
+            DisplayTimeUntilBusDeparture(timeUntilBusDeparture);
             
         }
+
+
 
         private static void WelcomeUser()
         {
@@ -56,12 +62,30 @@ namespace YoshiHelper
             double walkSpeed = 1.4;
 
             var walktoStartStationMinutes = busInfo.Select(x => x.DistanceToStartStation / walkSpeed / 60);
-            Console.WriteLine($"It takes {string.Join(",",walktoStartStationMinutes):0.#} minutes to walk to the bus from home");
+            Console.WriteLine($"It takes {string.Join(",",walktoStartStationMinutes):#.#} minutes to walk to the bus from home");
 
             var walktoEndStationMinutes = busInfo.Select(x => x.DistanceToEndStation / walkSpeed / 60);
-            Console.WriteLine($"It takes {string.Join(",", walktoEndStationMinutes):0.#} minutes to walk to the bus from work");
+            Console.WriteLine($"It takes {string.Join(",", walktoEndStationMinutes):#.#} minutes to walk to the bus from work");
         }
 
+        private static void CalculateTimeUntilBusDeparture(List<Bus> busInfo)
+        {
+            Bus bus = new Bus();
+            bus.StartTime = new TimeSpan(14, 30, 00);
+
+            DateTime time = DateTime.Now;
+
+            var timeUntilBusDeparture = bus.StartTime - time.TimeOfDay; //Genom att använda time.TimeOfDay så kan time omvandlas till TimeSpan, går inte att subtrahera DateTime från TimeSpan
+            Console.WriteLine($"Det är {timeUntilBusDeparture:mm} minuter kvar tills bussen går");
+
+        }
+
+        private static void DisplayTimeUntilBusDeparture(TimeSpan timeUntilBusDeparture)
+        {
+            throw new NotImplementedException();
+            //Beroende på vad värdet för timeUntilBusDeparture är så visas olika meddelanden, i olika färg: tex mindre än 5 min så rött, annars grönt :D 
+
+        }
 
 
 
