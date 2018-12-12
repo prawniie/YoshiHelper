@@ -16,13 +16,16 @@ namespace YoshiHelper
             Console.Clear();
 
             ReadTimetable();
+            FindNextBus();
 
             CalculateWalkingTime(busInfo);
             TimeSpan timeUntilBusDeparture = CalculateTimeUntilBusDeparture(busInfo);
 
             DisplayTimeUntilBusDeparture(timeUntilBusDeparture);
-
+            
         }
+
+
 
         private static void WelcomeUser()
         {
@@ -52,30 +55,47 @@ namespace YoshiHelper
 
         }
 
-        private static List<string> ReadTimetable()
+        private static string[] ReadTimetable()
         {
-            string[] timeTable = File.ReadAllLines(@"C:\Project\YoshiHelper\YoshiHelper\Gråbosnabben.txt");
+            string[] timeTable = File.ReadAllLines(@"C:\Project\YoshiHelper\YoshiHelper\YoshiHelper\Gråbosnabben.txt");
+            //Det viktiga är att kunna komma åt tiderna baserat på vilken busstation man har skrivit in 
+
+            List<DepartureTime> departureTime = new List<DepartureTime>();
+
+            foreach (var item in timeTable)
+            {
+                string[] splittedItems = item.Split(' ');
+                var busStop = new DepartureTime();
+                busStop.StationName = splittedItems[0];
 
 
+            }
+
+            for (int i = 0; i < timeTable.Length; i++)
+            {
+                string[] enskildBusshållPlats = 
+            }
 
 
+            List<Bus> busInfo = new List<Bus>();
 
-            //List<string> busInfo = new List<string>();
+            int counter = 0;
+            foreach (var item in timeTable)
+            {
 
-            //foreach (var item in timeTable)
-            //{
-            //    string[] splittedTimes = item.Split(" ");
+                string[] åkarePlatsen = item;
+            }
+            return timeTable;
+        }
 
-            //    foreach (var element in splittedTimes)
-            //    {
-            //        busInfo.Add(element);
-            //    }
-            //}
-            //return busInfo;
+        private static void FindNextBus()
+        {
 
+            ////FIND CLOSEST ELEMENT IN ARRAY; går att använda för oss där targetNumber är klockslag ?
+            //int[] array = new int[5] { 5, 7, 8, 15, 20 };
 
-
-
+            //int TargetNumber = 13;
+            //var nearest = array.MinBy(x => Math.Abs((long)x - targetNumber));
         }
 
         private static void CalculateWalkingTime(List<Bus> busInfo)
