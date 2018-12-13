@@ -23,11 +23,11 @@ namespace YoshiHelper
             CalculateWalkingTime(bus);
             TimeSpan timeUntilBusDeparture = CalculateTimeUntilBusDeparture(nextBus);//Rebecka
 
-            CalculateBusrideTime(timeTable); //Georg
+            CalculateBusrideTime(timeTable, bus.EndStation, nextBus); //Georg
 
             DisplayTimeUntilBusDeparture(timeUntilBusDeparture);
             CountDown(timeUntilBusDeparture); //Rebecka
-            
+
         }
 
 
@@ -115,9 +115,20 @@ namespace YoshiHelper
             Console.WriteLine($"Det tar {string.Join(",", walktoEndStationMinutes):#.#} minuter att gå till bussen från jobbet");
         }
 
-        private static void CalculateBusrideTime(List<DepartureTime> timeTable)
+        private static TimeSpan CalculateBusrideTime(List<DepartureTime> timeTable, string endStation, TimeSpan nextBus)
         {
-            throw new NotImplementedException();
+            TimeSpan timeWhenBusArrives = new TimeSpan();
+
+            foreach (var item in timeTable)
+            {
+                if (item.StationName == endStation)
+                {
+                    timeWhenBusArrives = item.DepartureTimes.Where(t => t > nextBus).OrderBy(t => Math.Abs((t - nextBus).Ticks)).First();
+                }
+            }
+
+            var resultBusRideTime = timeWhenBusArrives - nextBus;
+            return resultBusRideTime;
         }
 
         private static TimeSpan CalculateTimeUntilBusDeparture(TimeSpan nextBus)
