@@ -47,20 +47,62 @@ namespace YoshiHelper
             //Lägga till validering
             //Busshållplats som enum? se uppgift med Enums och sport
 
-            Console.Write("Vilken busshållplats åker du ifrån på morgonen? ");
-            bus.StartStation = Console.ReadLine();
+            while (true)
+            {
+                try
+                {
+                    Console.Write("Vilken busshållplats åker du ifrån på morgonen? ");
+                    bus.StartStation = Console.ReadLine();
+                    break;
+                }
+                catch (Exception)
+                {
+                    WriteRed("Hållplatsen finns inte");
+                }
+            }
 
-            Console.Write("Hur långt är det till busshållplatsen hemifrån? (ange i m) ");
-            bus.DistanceToStartStation = double.Parse(Console.ReadLine());
+            while (true)
+            {
+                try
+                {
+                    Console.Write("Hur långt är det till busshållplatsen hemifrån? (ange i m) ");
+                    bus.DistanceToStartStation = double.Parse(Console.ReadLine());
+                    break;
+                }
+                catch (Exception)
+                {
+                    WriteRed("Du ska knappa in en siffra!!!!!!!!!!!!!!!");
+                }
+            }
 
-            Console.Write("Vilken busshållplats hoppar du av på? ");
-            bus.EndStation = Console.ReadLine();
+            while (true)
+            {
+                try
+                {
+                    Console.Write("Vilken busshållplats hoppar du av på? ");
+                    bus.EndStation = Console.ReadLine();
+                    break;
+                }
+                catch (Exception)
+                {
+                    WriteRed("Hållplatsen finns inte");
+                }
+            }
 
-            Console.Write("Hur långt är det från denna hållplats till jobbet? (ange i m) ");
-            bus.DistanceToEndStation = double.Parse(Console.ReadLine());
-
+            while (true)
+            {
+                try
+                {
+                    Console.Write("Hur långt är det från denna hållplats till jobbet? (ange i m) ");
+                    bus.DistanceToEndStation = double.Parse(Console.ReadLine());
+                    break;
+                }
+                catch (Exception)
+                {
+                    WriteRed("Du ska knappa in en siffra här också!!!!!");
+                }
+            }
             return bus;
-
         }
 
         private static List<BusStation> ReadTimetable()
@@ -167,7 +209,7 @@ namespace YoshiHelper
             {
                 timeUntilYouNeedToGo = timeUntilYouNeedToGo.Subtract(oneSecond);
                 Console.CursorLeft = 45;
-                Console.Write($"{timeUntilYouNeedToGo.Hours} : {timeUntilYouNeedToGo.Minutes} : {timeUntilYouNeedToGo.Seconds}");
+                Console.Write($"{timeUntilYouNeedToGo.Hours.ToString().PadLeft(2)} : {timeUntilYouNeedToGo.Minutes.ToString().PadLeft(2)} : {timeUntilYouNeedToGo.Seconds.ToString().PadLeft(2)}");
 
                 if (timeUntilYouNeedToGo <= timeZero)
                 {
@@ -203,7 +245,7 @@ namespace YoshiHelper
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("---------------------------------------------------------");
-            Console.WriteLine("YoshiHelper".PadLeft(30));
+            Console.WriteLine("YoshiHelper".PadLeft(32));
             Console.WriteLine("---------------------------------------------------------");
             Console.ResetColor();
 
