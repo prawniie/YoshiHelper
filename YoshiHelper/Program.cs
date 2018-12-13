@@ -165,43 +165,13 @@ namespace YoshiHelper
 
         private static void CountDown(TimeSpan timeUntilYouNeedToGo)
         {
-            // 123456s  / 3600 = timmar
-
-            // 80sekunder / 60 =1min
-            // 80 % 60 =       20sek
-
-            //var onesecond = new TimeSpan(0, 0, 1);
-
-            //var t = new TimeSpan(1, 2, 0);
-            //t = t.Subtract(onesecond);
-            //Console.WriteLine(t.ToString());
-
-
-            //var t = timeUntilYouNeedToGo.Minutes;
-            //int countdown = timeUntilYouNeedToGo.Minutes;
-
-            //int countdown = timeUntilYouNeedToGo
-
-            //for (double countdown = timeUntilYouNeedToGo.TotalSeconds; countdown >= 0; countdown--) // a = 10 symboliserar 10 min kvar tills bussen går
-            //{
-            //    timeLeft = timeUntilYouNeedToGo.Subtract(oneSecond);
-            //    Console.CursorLeft = 45;
-            //    Console.Write(timeLeft);
-            //    System.Threading.Thread.Sleep(1000);
-            //}
-
             Console.Write("Minuter kvar tills du måste gå till bussen: ");
 
-            var timeLeft = new TimeSpan();
             var oneSecond = new TimeSpan(0, 0, 1);
             var timeZero = new TimeSpan(0, 0, 0);
 
-           // double countdown = timeUntilYouNeedToGo.TotalSeconds;
-
-
             while (true)
             {
-
                 timeUntilYouNeedToGo = timeUntilYouNeedToGo.Subtract(oneSecond);
                 Console.CursorLeft = 45;
                 Console.Write($"{timeUntilYouNeedToGo.Hours} : {timeUntilYouNeedToGo.Minutes} : {timeUntilYouNeedToGo.Seconds}");
@@ -210,10 +180,7 @@ namespace YoshiHelper
                 {
                     break;
                 }
-
                 System.Threading.Thread.Sleep(1000);
-                //countdown--;
-
             }
         }
 
