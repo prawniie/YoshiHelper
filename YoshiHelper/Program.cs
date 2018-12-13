@@ -130,8 +130,19 @@ namespace YoshiHelper
                 }
             }
 
-            Console.Write("Hur långt är det från denna hållplats till jobbet? (ange i m) ");
-            bus.DistanceToEndStation = double.Parse(Console.ReadLine());
+            while (true)
+            {
+                try
+                {
+                    Console.Write("Hur långt är det från denna hållplats till jobbet? (ange i m) ");
+                    bus.DistanceToEndStation = double.Parse(Console.ReadLine());
+                    break;
+                }
+                catch (Exception)
+                {
+                    WriteRed("Du måste knappa in en siffra");
+                }
+            }
             DisplayMenu();
         }
 
