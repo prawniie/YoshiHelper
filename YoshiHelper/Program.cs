@@ -20,13 +20,15 @@ namespace YoshiHelper
 
             TimeSpan nextBus = FindNextBus(timeTable, bus.StartStation, targetTime);
 
-            CalculateWalkingTime(bus);
+            TimeSpan walkingTimeToBus = CalculateWalkingTimeToBus(bus);
+            TimeSpan walkingTimeToWork = CalculateWalkingTimeToWork(bus);
+
             TimeSpan timeUntilBusDeparture = CalculateTimeUntilBusDeparture(nextBus);//Rebecka
+            TimeSpan timeUntilYouNeedToGo = CalculateTimeUntilYouNeedToGo(nextBus, walkingTimeToBus);
 
-            CalculateBusrideTime(timeTable); //Georg
+            //CalculateBusrideTime(timeTable); //Georg
 
-            DisplayTimeUntilBusDeparture(timeUntilBusDeparture);
-            CountDown(timeUntilBusDeparture); //Rebecka
+            CountDown(timeUntilYouNeedToGo); //Rebecka
             
         }
 
@@ -92,11 +94,8 @@ namespace YoshiHelper
 
             foreach (var item in timeTable)
             {
-                if (item.StationName == stationName) //här kan vi använda user input ist
+                if (item.StationName == stationName)
                 {
-                    //TimeSpan targetTime = DateTime.Now.TimeOfDay;
-                    //TimeSpan xxx = DateTime.Parse("18:45:00").TimeOfDay;
-
                     closestTime = item.DepartureTimes.Where(t => t > time).OrderBy(t => Math.Abs((t - time).Ticks)).First();
                     return closestTime;
                 }
@@ -104,15 +103,28 @@ namespace YoshiHelper
             return closestTime;
         }
 
-        private static void CalculateWalkingTime(Bus bus)
+        private static TimeSpan CalculateWalkingTimeToBus(Bus bus)
         {
             double walkSpeed = 1.4;
 
-            var walktoStartStationMinutes = bus.DistanceToStartStation / walkSpeed / 60;
-            Console.WriteLine($"Det tar {string.Join(",",walktoStartStationMinutes):#.#} minuter att gå till bussen hemifrån");
+            var walktoStartStationSeconds = bus.DistanceToStartStation / walkSpeed;
+            Console.WriteLine($"Det tar {string.Join(",",walktoStartStationSeconds/60):#.#} minuter att gå till bussen hemifrån");
 
-            var walktoEndStationMinutes = bus.DistanceToEndStation / walkSpeed / 60;
-            Console.WriteLine($"Det tar {string.Join(",", walktoEndStationMinutes):#.#} minuter att gå till bussen från jobbet");
+            TimeSpan interval = TimeSpan.FromSeconds(walktoStartStationSeconds); //konverterar sekunderna det tar att gå till timeSpan från double
+
+            return interval;
+        }
+
+        private static TimeSpan CalculateWalkingTimeToWork(Bus bus)
+        {
+            double walkSpeed = 1.4;
+
+            var walktoEndStationSeconds = bus.DistanceToEndStation / walkSpeed;
+            Console.WriteLine($"Det tar {string.Join(",", walktoEndStationSeconds/60):#.#} minuter att gå till bussen från jobbet");
+
+            TimeSpan interval = TimeSpan.FromSeconds(walktoEndStationSeconds); //konverterar sekunderna det tar att gå till timeSpan från double
+
+            return interval;
         }
 
         private static void CalculateBusrideTime(List<DepartureTime> timeTable)
@@ -127,24 +139,20 @@ namespace YoshiHelper
             var timeUntilBusDeparture = nextBus - time.TimeOfDay; //Genom att använda time.TimeOfDay så kan time omvandlas till TimeSpan, går inte att subtrahera DateTime från TimeSpan
             Console.WriteLine($"\nDet är {timeUntilBusDeparture:mm} minuter kvar tills bussen går");
 
-            //Lägga till hur lång tid det tar att gå -> vet när vi måste börja gå till bussen
-
             return timeUntilBusDeparture;
         }
 
-        private static void DisplayTimeUntilBusDeparture(TimeSpan timeUntilBusDeparture)
+        private static TimeSpan CalculateTimeUntilYouNeedToGo(TimeSpan nextBus, TimeSpan walkingTimeToBus)
         {
-            TimeSpan hurry = new TimeSpan(00, 05, 00);
+            DateTime time = DateTime.Now;
 
-            if (timeUntilBusDeparture > hurry)
-                WriteGreen("Du har gott om tid!");
-            else
-                WriteRed("Nu har du bråttom!");
+            var timeUntilYouNeedToStartWalking = nextBus.Subtract(time.TimeOfDay).Subtract(walkingTimeToBus);
+            Console.WriteLine($"\nDet är {timeUntilYouNeedToStartWalking} minuter kvar tills du måste gå till bussen!");
+            return timeUntilYouNeedToStartWalking;
 
-            //Lägga till hur lång tid det tar att gå till bussen, anpassa meddelandena efter det
         }
 
-        private static void CountDown(TimeSpan timeUntilBusDeparture)
+        private static void CountDown(TimeSpan timeUntilYouNeedToGo)
         {
             // 123456s  / 3600 = timmar
 
@@ -157,12 +165,34 @@ namespace YoshiHelper
             //t = t.Subtract(onesecond);
             //Console.WriteLine(t.ToString());
 
-            Console.Write("Minuter kvar till bussen går: ");
+            Console.Write("Minuter kvar tills du måste gå till bussen: ");
+
+            //var t = timeUntilYouNeedToGo.Minutes;
+            //int countdown = timeUntilYouNeedToGo.Minutes;
+
+            //int countdown = timeUntilYouNeedToGo
+
             for (int a = 600; a >= 0; a--) // a = 10 symboliserar 10 min kvar tills bussen går
             {
-                Console.CursorLeft = 29;
+                Console.CursorLeft = 45;
                 Console.Write(" {0:00} ", a);
                 System.Threading.Thread.Sleep(1000);
+            }
+            var timeLeft = new TimeSpan();
+            var oneSecond = new TimeSpan(0, 0, 1);
+            var timeZero = new TimeSpan(0, 0, 0);
+
+            while (true)
+            {
+
+                timeLeft = timeUntilYouNeedToGo.Subtract(oneSecond);
+                Console.CursorLeft = 45;
+                Console.Write(timeLeft);
+
+                if (timeLeft == timeZero)
+                {
+                    break;
+                }
             }
         }
 

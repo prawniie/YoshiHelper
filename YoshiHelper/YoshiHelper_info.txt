@@ -36,6 +36,7 @@ TO DO =)
 
 [GEORG]
 *CalculateBusTime: Beräkna hur lång tid bussresan tar (genom att mäta svingeln[1] = 15.21 - munkebäcksmotet[1] = 15.25 --> resultat = 4)
+*När går nästa buss
 
 Är hemma (klockslag just nu)--> gå till bussen (CalculateWalkingTime)--> bussresan (CalculateBusTime)--> gå till jobbet (CalculateWalkingTime)
 
