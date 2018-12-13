@@ -165,34 +165,44 @@ namespace YoshiHelper
             //t = t.Subtract(onesecond);
             //Console.WriteLine(t.ToString());
 
-            Console.Write("Minuter kvar tills du måste gå till bussen: ");
 
             //var t = timeUntilYouNeedToGo.Minutes;
             //int countdown = timeUntilYouNeedToGo.Minutes;
 
             //int countdown = timeUntilYouNeedToGo
 
-            for (int a = 600; a >= 0; a--) // a = 10 symboliserar 10 min kvar tills bussen går
-            {
-                Console.CursorLeft = 45;
-                Console.Write(" {0:00} ", a);
-                System.Threading.Thread.Sleep(1000);
-            }
+            //for (double countdown = timeUntilYouNeedToGo.TotalSeconds; countdown >= 0; countdown--) // a = 10 symboliserar 10 min kvar tills bussen går
+            //{
+            //    timeLeft = timeUntilYouNeedToGo.Subtract(oneSecond);
+            //    Console.CursorLeft = 45;
+            //    Console.Write(timeLeft);
+            //    System.Threading.Thread.Sleep(1000);
+            //}
+
+            Console.Write("Minuter kvar tills du måste gå till bussen: ");
+
             var timeLeft = new TimeSpan();
             var oneSecond = new TimeSpan(0, 0, 1);
             var timeZero = new TimeSpan(0, 0, 0);
 
+           // double countdown = timeUntilYouNeedToGo.TotalSeconds;
+
+
             while (true)
             {
 
-                timeLeft = timeUntilYouNeedToGo.Subtract(oneSecond);
+                timeUntilYouNeedToGo = timeUntilYouNeedToGo.Subtract(oneSecond);
                 Console.CursorLeft = 45;
-                Console.Write(timeLeft);
+                Console.Write($"{timeUntilYouNeedToGo.Hours} : {timeUntilYouNeedToGo.Minutes} : {timeUntilYouNeedToGo.Seconds}");
 
-                if (timeLeft == timeZero)
+                if (timeUntilYouNeedToGo == timeZero)
                 {
                     break;
                 }
+
+                System.Threading.Thread.Sleep(1000);
+                //countdown--;
+
             }
         }
 
