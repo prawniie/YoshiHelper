@@ -6,16 +6,25 @@ using System.Linq;
 namespace YoshiHelper
 {
     public class Program
-
     {
+        static Bus bus = new Bus();
+        static List<BusStation> timeTable = new List<BusStation>();
+
         static void Main(string[] args)
         {
-
             WelcomeUser();
-            Bus bus = AskUserForDefaultSettings();
+            timeTable = ReadTimetable();
+            AskUserForDefaultSettings();
             Console.Clear();
 
-            List<BusStation> timeTable = ReadTimetable();
+            DisplayMenu();
+
+
+        }
+
+        private static void WhenShouldIGo(List<BusStation> timeTable)
+        {
+
             TimeSpan targetTime = DateTime.Now.TimeOfDay;
 
             TimeSpan nextBus = FindNextBus(timeTable, bus.StartStation, targetTime);
@@ -23,16 +32,50 @@ namespace YoshiHelper
             TimeSpan walkingTimeToBus = CalculateWalkingTime(bus, bus.DistanceToStartStation);
             TimeSpan walkingTimeToWork = CalculateWalkingTime(bus, bus.DistanceToEndStation);
 
-            TimeSpan timeUntilBusDeparture = CalculateTimeUntilBusDeparture(nextBus);//Rebecka
+            TimeSpan timeUntilBusDeparture = CalculateTimeUntilBusDeparture(nextBus);
             TimeSpan timeUntilYouNeedToGo = CalculateTimeUntilYouNeedToGo(nextBus, walkingTimeToBus);
 
-            CalculateBusrideTime(timeTable, bus.EndStation, nextBus); //Georg
+            CalculateBusrideTime(timeTable, bus.EndStation, nextBus);
 
-            CountDown(timeUntilYouNeedToGo); //Rebecka
-            
+            CountDown(timeUntilYouNeedToGo);
+
+
         }
 
+        private static void DisplayMenu()
+        {
+            Console.Clear();
+            WriteGreen("MENY");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("[1] När ska jag gå för att hinna med nästa buss? ");
+            Console.WriteLine("[2] Inställningar");
+            Console.WriteLine("[3] Exit");
+            Console.ResetColor();
 
+            Console.Write("Välj 1,2 eller 3: ");
+            string choice = Console.ReadLine();
+            while (choice != "3")
+            {
+                switch (choice)
+                {
+                    case "1":
+                        WhenShouldIGo(timeTable);
+                        break;
+
+                    case "2":
+                        AskUserForDefaultSettings();
+                        break;
+
+                    default:
+                        {
+                            Console.WriteLine("Ogiltigt val. Skriv in 1, 2 eller 3");
+                            Console.Clear();
+                            DisplayMenu();
+                            break;
+                        }
+                }
+            }
+        }
 
         private static void WelcomeUser()
         {
@@ -40,10 +83,8 @@ namespace YoshiHelper
             Console.WriteLine("\nInnan Yoshi kan hjälpa till behöver vi veta lite information om dig:\n");
         }
 
-        private static Bus AskUserForDefaultSettings()
+        private static void AskUserForDefaultSettings()
         {
-            Bus bus = new Bus();
-
             //Lägga till validering
             //Busshållplats som enum? se uppgift med Enums och sport
 
@@ -58,9 +99,7 @@ namespace YoshiHelper
 
             Console.Write("Hur långt är det från denna hållplats till jobbet? (ange i m) ");
             bus.DistanceToEndStation = double.Parse(Console.ReadLine());
-
-            return bus;
-
+            DisplayMenu();
         }
 
         private static List<BusStation> ReadTimetable()
@@ -81,7 +120,7 @@ namespace YoshiHelper
                 foreach (var time in splittedItems.Skip(1))
                 {
                     TimeSpan t = TimeSpan.Parse(time);
-        
+
                     times.Add(t);
                 }
                 busStop.DepartureTimes = times;
@@ -153,13 +192,13 @@ namespace YoshiHelper
         {
             var oneSecond = new TimeSpan(0, 0, 01);
             var timeZero = new TimeSpan(0, 0, 0);
-                var hurry = new TimeSpan(0,5,0);
-                if (timeUntilYouNeedToGo < hurry)
-                {
-                    WriteRed("Nu har du bråttom!");
-                }
-                else
-                    WriteGreen("Ta det lugnt, du har gott om tid");
+            var hurry = new TimeSpan(0, 5, 0);
+            if (timeUntilYouNeedToGo < hurry)
+            {
+                WriteRed("Nu har du bråttom!");
+            }
+            else
+                WriteGreen("Ta det lugnt, du har gott om tid");
 
             Console.Write("Minuter kvar tills du måste gå till bussen: ");
 
@@ -175,8 +214,14 @@ namespace YoshiHelper
                     break;
                 }
                 System.Threading.Thread.Sleep(1000);
-                
 
+                //Console.WriteLine("\nTryck enter för att komma tillbaka till menyn");
+                //string input = Console.ReadLine();
+                //if (string.IsNullOrWhiteSpace(input))
+                //{
+                //    DisplayMenu();
+                //    break;
+                //}
             }
 
         }
