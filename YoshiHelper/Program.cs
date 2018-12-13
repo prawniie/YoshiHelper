@@ -58,7 +58,7 @@ namespace YoshiHelper
 
         private static List<DepartureTime> ReadTimetable()
         {
-            string[] timeTable = File.ReadAllLines(@"C:\Project\YoshiHelper\YoshiHelper\YoshiHelper\Gråbosnabben.txt");
+            string[] timeTable = File.ReadAllLines(@"C:\Project\YoshiHelper\YoshiHelper\Gråbosnabben.txt");
             //Det viktiga är att kunna komma åt tiderna baserat på vilken busstation man har skrivit in 
 
             //Den stora foreach-loopen kommer skapa 3 instanser av DepartureTime-klassen
