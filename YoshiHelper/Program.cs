@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 
@@ -96,6 +97,10 @@ namespace YoshiHelper
                     bus.StartStation = Console.ReadLine();
                     break;
                 }
+                catch (ArgumentNullException)
+                {
+                    WriteRed("Du måste knappa in något");
+                }
                 catch (Exception)
                 {
                     WriteRed("Hållplatsen finns inte");
@@ -123,6 +128,10 @@ namespace YoshiHelper
                     Console.Write("Vilken busshållplats hoppar du av på? ");
                     bus.EndStation = Console.ReadLine();
                     break;
+                }
+                catch (ArgumentNullException)
+                {
+                    WriteRed("Du måste knappa in något");
                 }
                 catch (Exception)
                 {
@@ -267,7 +276,6 @@ namespace YoshiHelper
                 //    break;
                 //}
             }
-
         }
 
         private static void WriteGreen(string text)
@@ -290,16 +298,32 @@ namespace YoshiHelper
 
         private static void Header()
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("---------------------------------------------------------");
-            Console.WriteLine("YoshiHelper".PadLeft(32));
-            Console.WriteLine("---------------------------------------------------------");
+            Console.WriteLine();
+            Console.WriteLine("YoshiHelper".PadLeft(53));
+            Console.WriteLine("___________________________________________________________________________________________________");
+            Console.WriteLine();
             Console.ResetColor();
 
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("@   @      @        @@@     @   @     @            @   @    @@@@@   @       @@@    @@@@@   @@@    ");
+            Console.WriteLine(" @ @     @   @     @        @   @     @            @   @    @       @       @  @   @       @  @   ");
+            Console.WriteLine("  @     @     @     @       @@@@@     @            @@@@@    @@@@@   @       @@@    @@@@@   @@@    ");
+            Console.WriteLine("  @      @   @        @     @   @     @            @   @    @       @       @      @       @  @   ");
+            Console.WriteLine("  @        @       @@@      @   @     @            @   @    @@@@@   @@@@@   @      @@@@@   @   @  ");
+            Console.WriteLine("__________________________________________________________________________________________________");
+            Console.ResetColor();
+
+
+
+
+
+
+
+
         }
-
-
-
-
     }
 }
