@@ -20,11 +20,13 @@ namespace YoshiHelper
 
             TimeSpan nextBus = FindNextBus(timeTable, bus.StartStation, targetTime);
 
-            //CalculateWalkingTime(busInfo);
-            TimeSpan timeUntilBusDeparture = CalculateTimeUntilBusDeparture(nextBus);
+            CalculateWalkingTime(bus);
+            TimeSpan timeUntilBusDeparture = CalculateTimeUntilBusDeparture(nextBus);//Rebecka
+
+            CalculateBusrideTime(timeTable); //Georg
 
             DisplayTimeUntilBusDeparture(timeUntilBusDeparture);
-            CountDown(timeUntilBusDeparture);
+            CountDown(timeUntilBusDeparture); //Rebecka
             
         }
 
@@ -102,15 +104,20 @@ namespace YoshiHelper
             return closestTime;
         }
 
-        private static void CalculateWalkingTime(List<Bus> busInfo)
+        private static void CalculateWalkingTime(Bus bus)
         {
             double walkSpeed = 1.4;
 
-            var walktoStartStationMinutes = busInfo.Select(x => x.DistanceToStartStation / walkSpeed / 60);
+            var walktoStartStationMinutes = bus.DistanceToStartStation / walkSpeed / 60;
             Console.WriteLine($"Det tar {string.Join(",",walktoStartStationMinutes):#.#} minuter att gå till bussen hemifrån");
 
-            var walktoEndStationMinutes = busInfo.Select(x => x.DistanceToEndStation / walkSpeed / 60);
+            var walktoEndStationMinutes = bus.DistanceToEndStation / walkSpeed / 60;
             Console.WriteLine($"Det tar {string.Join(",", walktoEndStationMinutes):#.#} minuter att gå till bussen från jobbet");
+        }
+
+        private static void CalculateBusrideTime(List<DepartureTime> timeTable)
+        {
+            throw new NotImplementedException();
         }
 
         private static TimeSpan CalculateTimeUntilBusDeparture(TimeSpan nextBus)
@@ -119,6 +126,8 @@ namespace YoshiHelper
 
             var timeUntilBusDeparture = nextBus - time.TimeOfDay; //Genom att använda time.TimeOfDay så kan time omvandlas till TimeSpan, går inte att subtrahera DateTime från TimeSpan
             Console.WriteLine($"\nDet är {timeUntilBusDeparture:mm} minuter kvar tills bussen går");
+
+            //Lägga till hur lång tid det tar att gå -> vet när vi måste börja gå till bussen
 
             return timeUntilBusDeparture;
         }
