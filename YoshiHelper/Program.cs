@@ -15,13 +15,21 @@ namespace YoshiHelper
             Bus bus = AskUserForDefaultSettings();
             Console.Clear();
 
-            List<DepartureTime> timeTable = ReadTimetable();
+            List<BusStation> timeTable = ReadTimetable();
             TimeSpan targetTime = DateTime.Now.TimeOfDay;
 
             TimeSpan nextBus = FindNextBus(timeTable, bus.StartStation, targetTime);
 
-            TimeSpan walkingTimeToBus = CalculateWalkingTimeToBus(bus);
-            TimeSpan walkingTimeToWork = CalculateWalkingTimeToWork(bus);
+            //double distanceToStartStation = bus.DistanceToStartStation;
+            //double y = bus.DistanceToEndStation;
+
+            TimeSpan walkingTimeToBus = CalculateWalkingTime(bus, bus.DistanceToStartStation);
+            TimeSpan walkingTimeToWork = CalculateWalkingTime(bus, bus.DistanceToEndStation);
+
+
+
+            //TimeSpan walkingTimeToBus = CalculateWalkingTimeToBus(bus, x);
+            //TimeSpan walkingTimeToWork = CalculateWalkingTimeToWork(bus, y);
 
             TimeSpan timeUntilBusDeparture = CalculateTimeUntilBusDeparture(nextBus);//Rebecka
             TimeSpan timeUntilYouNeedToGo = CalculateTimeUntilYouNeedToGo(nextBus, walkingTimeToBus);
@@ -44,6 +52,9 @@ namespace YoshiHelper
         {
             Bus bus = new Bus();
 
+            //Lägga till validering
+            //Busshållplats som enum? se uppgift med Enums och sport
+
             Console.Write("Vilken busshållplats åker du ifrån på morgonen? ");
             bus.StartStation = Console.ReadLine();
 
@@ -60,35 +71,35 @@ namespace YoshiHelper
 
         }
 
-        private static List<DepartureTime> ReadTimetable()
+        private static List<BusStation> ReadTimetable()
         {
             string[] timeTable = File.ReadAllLines(@"C:\Project\YoshiHelper\YoshiHelper\Gråbosnabben.txt");
             //Det viktiga är att kunna komma åt tiderna baserat på vilken busstation man har skrivit in 
 
-            //Den stora foreach-loopen kommer skapa 3 instanser av DepartureTime-klassen
-            List<DepartureTime> departureTime = new List<DepartureTime>();
+            //Den stora foreach-loopen kommer skapa 3 instanser av BusStation-klassen
+            List<BusStation> departureTimeForAllBusStops = new List<BusStation>();
 
             foreach (var item in timeTable)
             {
                 string[] splittedItems = item.Split(' ');
-                var busStop = new DepartureTime();
+                var busStop = new BusStation();
                 busStop.StationName = splittedItems[0];
 
                 List<TimeSpan> times = new List<TimeSpan>();
                 foreach (var time in splittedItems.Skip(1))
                 {
-                    TimeSpan x = TimeSpan.Parse(time);
+                    TimeSpan t = TimeSpan.Parse(time);
         
-                    times.Add(x);
+                    times.Add(t);
                 }
                 busStop.DepartureTimes = times;
-                departureTime.Add(busStop);
+                departureTimeForAllBusStops.Add(busStop);
 
             }
-            return departureTime;
+            return departureTimeForAllBusStops;
         }
 
-        public static TimeSpan FindNextBus(List<DepartureTime> timeTable, string stationName, TimeSpan time)
+        public static TimeSpan FindNextBus(List<BusStation> timeTable, string stationName, TimeSpan time)
         {
             TimeSpan closestTime = new TimeSpan();
 
@@ -103,31 +114,39 @@ namespace YoshiHelper
             return closestTime;
         }
 
-        private static TimeSpan CalculateWalkingTimeToBus(Bus bus)
+        private static TimeSpan CalculateWalkingTime(Bus bus, double distance)
         {
             double walkSpeed = 1.4;
+            var walkTime = distance / walkSpeed;
 
-            var walktoStartStationSeconds = bus.DistanceToStartStation / walkSpeed;
-            Console.WriteLine($"Det tar {string.Join(",",walktoStartStationSeconds/60):#.#} minuter att gå till bussen hemifrån");
+            if (bus.DistanceToStartStation == distance)
+            {
+                Console.WriteLine($"Det tar {string.Join(",", walkTime / 60):#.#} minuter att gå till bussen hemifrån");
+            }
 
-            TimeSpan interval = TimeSpan.FromSeconds(walktoStartStationSeconds); //konverterar sekunderna det tar att gå till timeSpan från double
+            if (bus.DistanceToEndStation == distance)
+            {
+                Console.WriteLine($"Det tar {string.Join(",", walkTime / 60):#.#} minuter att gå till jobbet");
+            }           
+
+            TimeSpan interval = TimeSpan.FromSeconds(walkTime); //konverterar sekunderna det tar att gå till timeSpan från double
 
             return interval;
         }
 
-        private static TimeSpan CalculateWalkingTimeToWork(Bus bus)
-        {
-            double walkSpeed = 1.4;
+        //private static TimeSpan CalculateWalkingTimeToWork(Bus bus)
+        //{
+        //    double walkSpeed = 1.4;
 
-            var walktoEndStationSeconds = bus.DistanceToEndStation / walkSpeed;
-            Console.WriteLine($"Det tar {string.Join(",", walktoEndStationSeconds/60):#.#} minuter att gå till bussen från jobbet");
+        //    var walktoEndStationSeconds = bus.DistanceToEndStation / walkSpeed;
+        //    Console.WriteLine($"Det tar {string.Join(",", walktoEndStationSeconds/60):#.#} minuter att gå till bussen från jobbet");
 
-            TimeSpan interval = TimeSpan.FromSeconds(walktoEndStationSeconds); //konverterar sekunderna det tar att gå till timeSpan från double
+        //    TimeSpan interval = TimeSpan.FromSeconds(walktoEndStationSeconds); //konverterar sekunderna det tar att gå till timeSpan från double
 
-            return interval;
-        }
+        //    return interval;
+        //}
 
-        private static TimeSpan CalculateBusrideTime(List<DepartureTime> timeTable, string endStation, TimeSpan nextBus)
+        private static TimeSpan CalculateBusrideTime(List<BusStation> timeTable, string endStation, TimeSpan nextBus)
         {
             TimeSpan timeWhenBusArrives = new TimeSpan();
 
@@ -136,6 +155,7 @@ namespace YoshiHelper
                 if (item.StationName == endStation)
                 {
                     timeWhenBusArrives = item.DepartureTimes.Where(t => t > nextBus).OrderBy(t => Math.Abs((t - nextBus).Ticks)).First();
+                    //Lägga till att tiden som det tar att gå måste vara mer än nextBus, alltså t + interval(walkTime) > nextBus
                 }
             }
 
@@ -148,8 +168,6 @@ namespace YoshiHelper
             DateTime time = DateTime.Now;
 
             var timeUntilBusDeparture = nextBus - time.TimeOfDay; //Genom att använda time.TimeOfDay så kan time omvandlas till TimeSpan, går inte att subtrahera DateTime från TimeSpan
-            Console.WriteLine($"\nDet är {timeUntilBusDeparture:mm} minuter kvar tills bussen går");
-
             return timeUntilBusDeparture;
         }
 
@@ -157,8 +175,8 @@ namespace YoshiHelper
         {
             DateTime time = DateTime.Now;
 
+            //Validering: Vad händer om det tar längre tid att gå till bussen än vadd det är kvar tills bussen går?
             var timeUntilYouNeedToStartWalking = nextBus.Subtract(time.TimeOfDay).Subtract(walkingTimeToBus);
-            Console.WriteLine($"\nDet är {timeUntilYouNeedToStartWalking} minuter kvar tills du måste gå till bussen!");
             return timeUntilYouNeedToStartWalking;
 
         }
@@ -167,8 +185,15 @@ namespace YoshiHelper
         {
             Console.Write("Minuter kvar tills du måste gå till bussen: ");
 
-            var oneSecond = new TimeSpan(0, 0, 1);
+            var oneSecond = new TimeSpan(0, 0, 01);
             var timeZero = new TimeSpan(0, 0, 0);
+                var hurry = new TimeSpan(0,5,0);
+                if (timeUntilYouNeedToGo < hurry)
+                {
+                    WriteRed("Nu har du bråttom!");
+                }
+                else
+                    WriteGreen("Ta det lugnt, du har gott om tid");
 
             while (true)
             {
@@ -176,12 +201,15 @@ namespace YoshiHelper
                 Console.CursorLeft = 45;
                 Console.Write($"{timeUntilYouNeedToGo.Hours} : {timeUntilYouNeedToGo.Minutes} : {timeUntilYouNeedToGo.Seconds}");
 
-                if (timeUntilYouNeedToGo == timeZero)
+                if (timeUntilYouNeedToGo <= timeZero)
                 {
                     break;
                 }
                 System.Threading.Thread.Sleep(1000);
+
+
             }
+
         }
 
         private static void WriteGreen(string text)

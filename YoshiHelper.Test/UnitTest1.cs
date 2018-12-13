@@ -9,9 +9,9 @@ namespace YoshiHelper.Test
     public class UnitTest1
     {
 
-        List<DepartureTime> x = new List<DepartureTime>
+        List<BusStation> x = new List<BusStation>
             {
-                new DepartureTime
+                new BusStation
                 {
                     StationName="Lilla bommen",
                     DepartureTimes = new List<TimeSpan>
