@@ -116,6 +116,7 @@ namespace YoshiHelper
                 }
             }
 
+<<<<<<< HEAD
             while (true)
             {
                 try
@@ -130,9 +131,25 @@ namespace YoshiHelper
                 }
             }
 
+            while (true)
+            {
+                try
+                {
+                    Console.Write("Hur långt är det från denna hållplats till jobbet? (ange i m) ");
+                    bus.DistanceToEndStation = double.Parse(Console.ReadLine());
+                    break;
+                }
+                catch (Exception)
+                {
+                    WriteRed("Du ska knappa in en siffra här också!!!!!");
+                }
+            }
+            return bus;
+=======
             Console.Write("Hur långt är det från denna hållplats till jobbet? (ange i m) ");
             bus.DistanceToEndStation = double.Parse(Console.ReadLine());
             DisplayMenu();
+>>>>>>> 702d2a0840eb3f5546d8a63e0e2b23b04939dddc
         }
 
         private static List<BusStation> ReadTimetable()
