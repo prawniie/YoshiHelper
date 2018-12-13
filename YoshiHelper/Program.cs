@@ -240,6 +240,10 @@ namespace YoshiHelper
             return timeUntilYouNeedToStartWalking;
 
 
+            //Lägga in IF statement, att om ekvationen inte går ihop ska det poppa upp "tyvärr hinner du inte nästa buss", eller validering som OVAN
+
+
+
 
             //Förslag:
             //Skicka in följande parametrar: Tid person vill vara på jobbet ( måste vi lägga in som preferens ), Tid det tar att gå till jobbet, Tid det tar för bussen att åka från destination a till b
@@ -311,19 +315,20 @@ namespace YoshiHelper
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
+
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine();
             Console.WriteLine("YoshiHelper".PadLeft(53));
-            Console.WriteLine("___________________________________________________________________________________________________");
-            Console.WriteLine();
-            Console.WriteLine("@   @      @        @@@     @   @     @            @   @    @@@@@   @       @@@    @@@@@   @@@    ");
-            Console.WriteLine(" @ @     @   @     @        @   @     @            @   @    @       @       @  @   @       @  @   ");
-            Console.WriteLine("  @     @     @     @       @@@@@     @            @@@@@    @@@@@   @       @@@    @@@@@   @@@    ");
-            Console.WriteLine("  @      @   @        @     @   @     @            @   @    @       @       @      @       @  @   ");
-            Console.WriteLine("  @        @       @@@      @   @     @            @   @    @@@@@   @@@@@   @      @@@@@   @   @  ");
-            Console.WriteLine("__________________________________________________________________________________________________");
+            Console.WriteLine(" ________________________________________________________________________________________________");
+            Console.WriteLine("|                                                                                                | ");
+            Console.WriteLine("| @   @     @@@      @@@    @   @    @            @   @    @@@@@   @       @@@    @@@@@   @@@    | ");
+            Console.WriteLine("|  @ @     @   @    @       @   @    @            @   @    @       @       @  @   @       @  @   | ");
+            Console.WriteLine("|   @      @   @     @      @@@@@    @            @@@@@    @@@@@   @       @@@    @@@@@   @@@    | ");
+            Console.WriteLine("|   @      @   @       @    @   @    @            @   @    @       @       @      @       @  @   | ");
+            Console.WriteLine("|   @       @@@     @@@     @   @    @            @   @    @@@@@   @@@@@   @      @@@@@   @   @  | ");
+            Console.WriteLine("|________________________________________________________________________________________________|");
             Console.ResetColor();
-
+            
 
         }
     }
