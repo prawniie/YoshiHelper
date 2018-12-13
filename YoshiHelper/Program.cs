@@ -239,6 +239,17 @@ namespace YoshiHelper
             var timeUntilYouNeedToStartWalking = nextBus.Subtract(time.TimeOfDay).Subtract(walkingTimeToBus);
             return timeUntilYouNeedToStartWalking;
 
+
+
+            //Förslag:
+            //Skicka in följande parametrar: Tid person vill vara på jobbet ( måste vi lägga in som preferens ), Tid det tar att gå till jobbet, Tid det tar för bussen att åka från destination a till b
+            //var new timeUntilYouNeedToStartWalking = tid på jobbet - tid att gå från buss till jobbet - bussresa tid - tid att gå till hållplats hemifrån - TID NU
+            //Då får vi ändra denna nya variabel till variabeln i countdown. Sen borde allt funka fast med tid på jobbet preferens!
+
+
+
+
+
         }
 
         private static void CountDown(TimeSpan timeUntilYouNeedToGo)
@@ -300,15 +311,11 @@ namespace YoshiHelper
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine();
             Console.WriteLine("YoshiHelper".PadLeft(53));
             Console.WriteLine("___________________________________________________________________________________________________");
             Console.WriteLine();
-            Console.ResetColor();
-
-            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("@   @      @        @@@     @   @     @            @   @    @@@@@   @       @@@    @@@@@   @@@    ");
             Console.WriteLine(" @ @     @   @     @        @   @     @            @   @    @       @       @  @   @       @  @   ");
             Console.WriteLine("  @     @     @     @       @@@@@     @            @@@@@    @@@@@   @       @@@    @@@@@   @@@    ");
@@ -316,12 +323,6 @@ namespace YoshiHelper
             Console.WriteLine("  @        @       @@@      @   @     @            @   @    @@@@@   @@@@@   @      @@@@@   @   @  ");
             Console.WriteLine("__________________________________________________________________________________________________");
             Console.ResetColor();
-
-
-
-
-
-
 
 
         }
