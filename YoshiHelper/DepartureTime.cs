@@ -4,7 +4,7 @@ using System.Text;
 
 namespace YoshiHelper
 {
-    class DepartureTime
+    public class DepartureTime
     {
         public string StationName { get; set; }
         public List<TimeSpan> DepartureTimes { get; set; }

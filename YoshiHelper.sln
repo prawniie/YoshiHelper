@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoshiHelper", "YoshiHelper\YoshiHelper.csproj", "{B53E308E-F386-4127-B2A9-DB876BB6D234}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoshiHelper.Test", "YoshiHelper.Test\YoshiHelper.Test.csproj", "{529CA7A7-2C62-45D0-B358-DED898A5E614}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B53E308E-F386-4127-B2A9-DB876BB6D234}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B53E308E-F386-4127-B2A9-DB876BB6D234}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B53E308E-F386-4127-B2A9-DB876BB6D234}.Release|Any CPU.Build.0 = Release|Any CPU
+		{529CA7A7-2C62-45D0-B358-DED898A5E614}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{529CA7A7-2C62-45D0-B358-DED898A5E614}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{529CA7A7-2C62-45D0-B358-DED898A5E614}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{529CA7A7-2C62-45D0-B358-DED898A5E614}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
