@@ -264,10 +264,11 @@ namespace YoshiHelper
 
         private static TimeSpan CalculateTimeUntilYouNeedToGo(TimeSpan nextBus, TimeSpan walkingTimeToBus)
         {
+            TimeSpan timeUntilYouNeedToStartWalking = new TimeSpan (0, 0, 0);
             DateTime time = DateTime.Now;
             try
             {
-                var timeUntilYouNeedToStartWalking = nextBus.Subtract(time.TimeOfDay).Subtract(walkingTimeToBus);
+                timeUntilYouNeedToStartWalking = nextBus.Subtract(time.TimeOfDay).Subtract(walkingTimeToBus);
                 if (timeUntilYouNeedToStartWalking < new TimeSpan(0, 0, 0))
                 {
                     WriteRed("Något gick fel, det tar för lång tid att gå så du kommer missa bussen.."); //Detta skrivs inte ut..
@@ -277,7 +278,13 @@ namespace YoshiHelper
                 {
                     return timeUntilYouNeedToStartWalking;
                 }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Något gick fel");
+            }
 
+            return timeUntilYouNeedToStartWalking;
         }
 
         private static void CountDown(TimeSpan timeUntilYouNeedToGo)
