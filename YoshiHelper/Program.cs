@@ -17,6 +17,7 @@ namespace YoshiHelper
 
         static void Main(string[] args)
         {
+
             WelcomeUser();
             timeTable = ReadTimetable();
             AskUserForDefaultSettings();
@@ -37,7 +38,7 @@ namespace YoshiHelper
             {
                 try
                 {
-                    Console.Write("Vilken busshållplats går du på bussen? ");
+                    Console.Write("Vilken busshållplats går du till efter jobbet? ");
                     string input = Console.ReadLine();
                     if (!Regex.IsMatch(input, @"^(Åkareplatsen|Svingeln|Munkebäcksmotet|Stenkullen|Gråbo)$", RegexOptions.IgnoreCase))
                     {
@@ -59,7 +60,7 @@ namespace YoshiHelper
             {
                 try
                 {
-                    Console.Write("Hur långt är det till busshållplatsen hemifrån? ");
+                    Console.Write("Hur långt är det till busshållplatsen från jobbet (i meter)? ");
                     bus.DistanceToStartStation = double.Parse(Console.ReadLine());
                     break;
                 }
@@ -95,7 +96,7 @@ namespace YoshiHelper
             {
                 try
                 {
-                    Console.Write("Hur långt är det från denna hållplats till jobbet? (ange i m) ");
+                    Console.Write("Hur långt är det från denna hållplats hem till dig (i meter)? ");
                     bus.DistanceToEndStation = double.Parse(Console.ReadLine());
                     break;
 
@@ -103,7 +104,6 @@ namespace YoshiHelper
                 catch (Exception)
                 {
                     WriteRed("Du ska knappa in en siffra!!!!!!!!!!!!!!!");
-                    throw;
                 }
             }
             WriteGreen("Dina ändringar är sparade!"); //Detta skrivs inte heller ut
@@ -145,8 +145,8 @@ namespace YoshiHelper
                             DisplayMenu();
                             break;
                         }
-                    }
-                } while (choice != "3");
+                }
+            } while (choice != "3");
         }
 
         private static void WhenShouldIGo(List<BusStation> timeTable)
@@ -158,7 +158,6 @@ namespace YoshiHelper
                 TimeSpan walkingTimeToBus = CalculateWalkingTime(bus, bus.DistanceToStartStation);
                 TimeSpan walkingTimeToWork = CalculateWalkingTime(bus, bus.DistanceToEndStation);
                 TimeSpan nextBus = FindNextBus(timeTable, bus.StartStation, targetTime, walkingTimeToBus);
-
 
                 TimeSpan timeUntilBusDeparture = CalculateTimeUntilBusDeparture(nextBus);
                 TimeSpan timeUntilYouNeedToGo = CalculateTimeUntilYouNeedToGo(nextBus, walkingTimeToBus);
@@ -172,7 +171,7 @@ namespace YoshiHelper
             {
                 Console.WriteLine(ex);
                 DisplayMenu(); //Om det blir knas så fastnar man inte i loopen utan får komma till menyn istället 
-                                //Men inget felmeddelande skrivs ut!
+                               //Men inget felmeddelande skrivs ut!
             }
             catch (Exception ex)
             {
@@ -180,10 +179,6 @@ namespace YoshiHelper
                 DisplayMenu();
 
             }
-
-            //Varför den fastnar i oändlig fel-loop: efter att den kastat exception så kommer man tillbaks i menyn, 
-            //och eftersom inputen fortfarande inte ´är 3 (exit) så fortsätter den att hoppa till WhenShouldIGo() vilket
-            //leder till att felmeddelandet skrivs ut om och om igen..
         }
 
         private static List<BusStation> ReadTimetable()
@@ -246,7 +241,6 @@ namespace YoshiHelper
                 if (item.StationName == endStation)
                 {
                     timeWhenBusArrives = item.DepartureTimes.Where(t => t > nextBus).OrderBy(t => Math.Abs((t - nextBus).Ticks)).First();
-                    //Lägga till att tiden som det tar att gå måste vara mer än nextBus, alltså t + interval(walkTime) > nextBus
                 }
             }
 
@@ -264,7 +258,7 @@ namespace YoshiHelper
 
         private static TimeSpan CalculateTimeUntilYouNeedToGo(TimeSpan nextBus, TimeSpan walkingTimeToBus)
         {
-            TimeSpan timeUntilYouNeedToStartWalking = new TimeSpan (0, 0, 0);
+            TimeSpan timeUntilYouNeedToStartWalking = new TimeSpan(0, 0, 0);
             DateTime time = DateTime.Now;
             try
             {
@@ -309,7 +303,7 @@ namespace YoshiHelper
 
                 if (timeUntilYouNeedToGo <= timeZero)
                 {
-                    WriteRed("Tiden är ute du misssa bussen tyvärr :( ");
+                    WriteRed("Tiden är ute, nu kommer du misssa bussen tyvärr :( ");
                     break;
                 }
                 System.Threading.Thread.Sleep(1000);
@@ -349,17 +343,20 @@ namespace YoshiHelper
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine();
-            Console.WriteLine("YoshiHelper".PadLeft(53));
-            Console.WriteLine(" ________________________________________________________________________________________________");
-            Console.WriteLine("|                                                                                                | ");
-            Console.WriteLine("| @   @     @@@      @@@    @   @    @            @   @    @@@@@   @       @@@    @@@@@   @@@    | ");
-            Console.WriteLine("|  @ @     @   @    @       @   @    @            @   @    @       @       @  @   @       @  @   | ");
-            Console.WriteLine("|   @      @   @     @      @@@@@    @            @@@@@    @@@@@   @       @@@    @@@@@   @@@    | ");
-            Console.WriteLine("|   @      @   @       @    @   @    @            @   @    @       @       @      @       @  @   | ");
-            Console.WriteLine("|   @       @@@     @@@     @   @    @            @   @    @@@@@   @@@@@   @      @@@@@   @   @  | ");
-            Console.WriteLine("|________________________________________________________________________________________________|");
+
+            Console.WriteLine(@"$$\     $$\                   $$\       $$\       $$\   $$\           $$\");
+            Console.WriteLine(@"\$$\   $$  |                  $$ |      \__|      $$ |  $$ |          $$ |");
+            Console.WriteLine(@" \$$\ $$  /$$$$$$\   $$$$$$$\ $$$$$$$\  $$\       $$ |  $$ | $$$$$$\  $$ | $$$$$$\   $$$$$$\   $$$$$$\  ");
+            Console.WriteLine(@"  \$$$$  /$$  __$$\ $$  _____|$$  __$$\ $$ |      $$$$$$$$ |$$  __$$\ $$ |$$  __$$\ $$  __$$\ $$  __$$\ ");
+            Console.WriteLine(@"   \$$  / $$ /  $$ |\$$$$$$\  $$ |  $$ |$$ |      $$  __$$ |$$$$$$$$ |$$ |$$ /  $$ |$$$$$$$$ |$$ |  \__|");
+            Console.WriteLine(@"    $$ |  $$ |  $$ | \____$$\ $$ |  $$ |$$ |      $$ |  $$ |$$   ____|$$ |$$ |  $$ |$$   ____|$$ |   ");
+            Console.WriteLine(@"    $$ |  \$$$$$$  |$$$$$$$  |$$ |  $$ |$$ |      $$ |  $$ |\$$$$$$$\ $$ |$$$$$$$  |\$$$$$$$\ $$ |   ");
+            Console.WriteLine(@"    \__|   \______/ \_______/ \__|  \__|\__|      \__|  \__| \_______|\__|$$  ____/  \_______|\__|    ");
+            Console.WriteLine(@"                                                                          $$ |                         ");
+            Console.WriteLine(@"                                                                          $$ |                        ");
+            Console.WriteLine(@"                                                                          \__|                        ");
             Console.ResetColor();
-            
+
 
         }
     }
