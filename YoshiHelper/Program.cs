@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace YoshiHelper
 {
+    //Fråga Oscar hur göra för att kunna komma tillbaka till menyn när man fått svar på när bussen går!!
+
     public class Program
     {
         static Bus bus = new Bus();
@@ -37,7 +40,7 @@ namespace YoshiHelper
                     string input = Console.ReadLine();
                     if (!Regex.IsMatch(input, @"^(Åkareplatsen|Svingeln|Munkebäcksmotet|Stenkullen|Gråbo)$", RegexOptions.IgnoreCase))
                     {
-                        throw new ArgumentException("Hållplatsen existerar inte");
+                        WriteRed("Kan inte hitta hållplatsen, vänligen skriv in igen");
                     }
                     else
                     {
@@ -73,7 +76,7 @@ namespace YoshiHelper
                     string input = Console.ReadLine();
                     if (!Regex.IsMatch(input, @"^(Åkareplatsen|Svingeln|Munkebäcksmotet|Stenkullen|Gråbo)$", RegexOptions.IgnoreCase))
                     {
-                        throw new ArgumentException("Hållplatsen existerar inte");
+                        WriteRed("Kan inte hitta hållplatsen, vänligen skriv in igen");
                     }
                     else
                     {
@@ -116,10 +119,13 @@ namespace YoshiHelper
             Console.WriteLine("[3] Exit");
             Console.ResetColor();
 
-            Console.Write("Välj 1,2 eller 3: ");
-            string choice = Console.ReadLine();
-            while (choice != "3")
+            string choice = "";
+
+            do
             {
+                Console.Write("Välj 1,2 eller 3: ");
+                choice = Console.ReadLine();
+
                 switch (choice)
                 {
                     case "1":
@@ -129,6 +135,8 @@ namespace YoshiHelper
                     case "2":
                         AskUserForDefaultSettings();
                         break;
+                    case "3":
+                        break;
 
                     default:
                         {
@@ -136,8 +144,8 @@ namespace YoshiHelper
                             DisplayMenu();
                             break;
                         }
-                }
-            }
+                    }
+                } while (choice != "3");
         }
 
         private static void WhenShouldIGo(List<BusStation> timeTable)
