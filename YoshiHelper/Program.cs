@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -277,12 +278,6 @@ namespace YoshiHelper
                     return timeUntilYouNeedToStartWalking;
                 }
 
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                throw;
-            }
         }
 
         private static void CountDown(TimeSpan timeUntilYouNeedToGo)
@@ -320,7 +315,6 @@ namespace YoshiHelper
                 //    break;
                 //}
             }
-
         }
 
         private static void WriteGreen(string text)
@@ -343,16 +337,23 @@ namespace YoshiHelper
 
         private static void Header()
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("---------------------------------------------------------");
-            Console.WriteLine("YoshiHelper".PadLeft(32));
-            Console.WriteLine("---------------------------------------------------------");
+            Console.WriteLine();
+            Console.WriteLine("YoshiHelper".PadLeft(53));
+            Console.WriteLine(" ________________________________________________________________________________________________");
+            Console.WriteLine("|                                                                                                | ");
+            Console.WriteLine("| @   @     @@@      @@@    @   @    @            @   @    @@@@@   @       @@@    @@@@@   @@@    | ");
+            Console.WriteLine("|  @ @     @   @    @       @   @    @            @   @    @       @       @  @   @       @  @   | ");
+            Console.WriteLine("|   @      @   @     @      @@@@@    @            @@@@@    @@@@@   @       @@@    @@@@@   @@@    | ");
+            Console.WriteLine("|   @      @   @       @    @   @    @            @   @    @       @       @      @       @  @   | ");
+            Console.WriteLine("|   @       @@@     @@@     @   @    @            @   @    @@@@@   @@@@@   @      @@@@@   @   @  | ");
+            Console.WriteLine("|________________________________________________________________________________________________|");
             Console.ResetColor();
+            
 
         }
-
-
-
-
     }
 }
